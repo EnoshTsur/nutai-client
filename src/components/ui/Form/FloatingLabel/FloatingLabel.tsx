@@ -21,7 +21,7 @@ interface LabelProps {
     readonly isFocused: boolean
 }
 
-const FormElementLabel = ({ children, isFocused, }: LabelProps) => {
+const FloatingLabel = ({ children, isFocused, }: LabelProps) => {
     return (
         <Label focused={`${isFocused}`}>
             { children }
@@ -29,4 +29,4 @@ const FormElementLabel = ({ children, isFocused, }: LabelProps) => {
     )
 } 
 
-export default FormElementLabel
+export default FloatingLabel

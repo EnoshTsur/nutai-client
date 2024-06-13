@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
-import FormElementLabel from "../FormElementLabel/FormElementLabel";
-import useFocus from "../hooks/useFocus";
+import FormElementLabel from "../FloatingLabel/FloatingLabel";
+import useInput from "../hooks/useInput";
 
 const shakeAnimation = keyframes`
   0% {
@@ -20,7 +21,11 @@ const shakeAnimation = keyframes`
   }
 `;
 
-const Container = styled.div<{ focused: string; error: string }>`
+const Container = styled.div<{
+  focused: string;
+  error: string;
+  success: boolean;
+}>`
   ${({ error, theme }) =>
     error === ""
       ? css`
@@ -31,13 +36,22 @@ const Container = styled.div<{ focused: string; error: string }>`
         `};
   position: relative;
   border: ${({ theme }) => theme.formElement.border};
-  border-radius: 8px;
   padding: 0.5rem 0;
-  ${({ focused, theme }) =>
-    focused === "true" &&
-    css`
-      border: ${theme.formElement.borderFocus};
-    `}
+  ${({ focused, success, theme }) => {
+    if (success) {
+      return css`
+        border-image: linear-gradient(to right, lime, #028535) 1;
+        border-style: solid;
+        border-width: 1px;
+      `;
+    }
+    return (
+      focused === "true" &&
+      css`
+        border: ${theme.formElement.borderFocus};
+      `
+    );
+  }}
 `;
 
 const InputContent = styled.input`
@@ -77,6 +91,7 @@ interface InputProps
     HTMLInputElement
   > {
   readonly error?: string;
+  readonly success?: boolean;
 }
 
 const Input = ({
@@ -84,14 +99,19 @@ const Input = ({
   value,
   onChange,
   error = "",
+  success,
   ...rest
 }: InputProps) => {
-  const { ref, isFocused, handleClick, handleBlur } =
-    useFocus<HTMLInputElement>(value);
+  const { ref, isFocused, handleClick, handleBlur } = useInput({ value });
+
+  useEffect(() => {
+    console.log("input value", { value });
+  }, [value]);
 
   return (
     <Container
       error={error}
+      success={success != null && success}
       focused={`${isFocused}`}
       onClick={handleClick}
       onBlur={handleBlur}
