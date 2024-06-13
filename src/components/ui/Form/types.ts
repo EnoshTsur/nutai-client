@@ -9,7 +9,7 @@ export interface OptionValue {
 
 export interface InputField {
   readonly formType: "input";
-  readonly inputType: "text" | "number";
+  readonly inputType: "text" | "number" | "email" | "password";
   readonly value?: InputValueType;
   readonly label?: string;
   readonly onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

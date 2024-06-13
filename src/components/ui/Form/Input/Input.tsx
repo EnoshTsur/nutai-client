@@ -104,10 +104,6 @@ const Input = ({
 }: InputProps) => {
   const { ref, isFocused, handleClick, handleBlur } = useInput({ value });
 
-  useEffect(() => {
-    console.log("input value", { value });
-  }, [value]);
-
   return (
     <Container
       error={error}

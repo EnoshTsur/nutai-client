@@ -1,5 +1,5 @@
-import { InputField, SelectField } from "../types";
-import useForm from "./useForm";
+import { InputField, SelectField } from "../../ui/Form/types";
+import useForm from "../../ui/Form/hooks/useForm";
 
 const useUserForm = () => {
   const { formState, handleChange } = useForm({
