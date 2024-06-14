@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import axios from "axios";
 import { useQuery } from "react-query";
 import Button from "../../ui/Button/Button";
 import Form from "../../ui/Form/Form";
@@ -11,18 +11,24 @@ const fetchToken = async ({
   email: string;
   password: string;
 }) => {
-  const data = await fetch("http://localhost:4899/api/users/login", {
-    method: "post",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-    },
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  });
+  try {
+    const response = await axios.post(
+      "http://localhost:4899/api/users/login",
+      {
+        email,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  return await data.json();
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 const UserLoginForm = () => {

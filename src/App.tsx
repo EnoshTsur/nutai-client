@@ -13,11 +13,19 @@ import { MemoryRouter, Route, Routes, useNavigate } from "react-router";
 import routes from "./routes/AppRoutes";
 import Button from "./components/ui/Button/Button";
 import { QueryClient, QueryClientProvider } from "react-query";
+import useIsUserAuthenticated from "./hooks/useIsUserAthenticated";
 
 const queryClient = new QueryClient();
 
 function App() {
   const [theme, setTheme] = useState(darkTheme);
+
+  const { isAuthenticated } = useIsUserAuthenticated()
+
+  useEffect(() => {
+    console.log({ isAuthenticated });
+    
+  }, [isAuthenticated])
 
   return (
     <ThemeProvider theme={theme}>

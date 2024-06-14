@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useQuery } from "react-query";
 import Button from "../../ui/Button/Button";
 import Form from "../../ui/Form/Form";
@@ -10,18 +11,24 @@ const registerUser = async ({
   email: string;
   password: string;
 }) => {
-  const data = await fetch("http://localhost:4899/api/users/register", {
-    method: "post",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  });
+  try {
+    const response = await axios.post(
+      "http://localhost:4899/api/users/register",
+      {
+        email,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  return await data.json();
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 const UserRegister = () => {
@@ -32,7 +39,10 @@ const UserRegister = () => {
 
   const { refetch } = useQuery(["user-register"], {
     queryFn: () =>
-      registerUser({ email: email.value ?? "", password: password.value ?? "" }),
+      registerUser({
+        email: email.value ?? "",
+        password: password.value ?? "",
+      }),
     enabled: false,
     onSuccess: ({ token }) => {
       localStorage.setItem("token", token);
@@ -43,16 +53,13 @@ const UserRegister = () => {
   });
 
   const handleSubmit = () => {
-    refetch()
-  }
+    refetch();
+  };
 
   return (
     <>
       <Form formFields={formFields}></Form>
-      <Button
-        disabled={false}
-        onClick={handleSubmit}
-      >
+      <Button disabled={false} onClick={handleSubmit}>
         Sign
       </Button>
     </>
