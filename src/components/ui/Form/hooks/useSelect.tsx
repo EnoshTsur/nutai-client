@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 interface useSelectProps {
   readonly options: ReadonlyArray<string>;
@@ -13,6 +13,10 @@ const useSelect = ({ options, value }: useSelectProps) => {
     setOpen((pre) => !pre);
     setFocused(true);
   }, [setOpen, setFocused]);
+
+  const handleFocus = useCallback(() => {
+    setFocused(true);
+  }, [setFocused]);
 
   const handleBlur = useCallback(() => {
     if (value == null) {
@@ -33,6 +37,7 @@ const useSelect = ({ options, value }: useSelectProps) => {
     orderedOptions,
     handleClick,
     handleBlur,
+    handleFocus,
   };
 };
 

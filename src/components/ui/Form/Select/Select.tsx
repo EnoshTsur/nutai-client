@@ -58,16 +58,17 @@ interface SelectProps {
 }
 
 const Select = ({ value, options, label, success, onChange }: SelectProps) => {
-  const { isFocused, isOpen, orderedOptions, handleBlur, handleClick } =
-    useSelect({ options, value });
+  const { isFocused, isOpen, orderedOptions, handleBlur, handleClick, handleFocus } =
+    useSelect({ options, value,  });
 
   return (
     <Container
-      tabIndex={-1}
+      tabIndex={0}
       isfocused={`${isFocused}`}
       onClick={handleClick}
       onBlur={handleBlur}
       success={success != null && success}
+      onFocus={handleFocus}
     >
       <FormElementLabel isFocused={isFocused}>{label}</FormElementLabel>
       <span style={{ padding: "0 0.5rem" }}>{value}</span>

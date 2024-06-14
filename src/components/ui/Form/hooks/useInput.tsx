@@ -10,7 +10,7 @@ const useInput = ({ value }: useInputProps) => {
   const [isFocused, setFocused] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
 
-  const handleClick = useCallback(() => {
+  const handleFocus = useCallback(() => {
     setFocused(true);
     if (ref.current != null) {
       ref.current.focus();
@@ -26,7 +26,7 @@ const useInput = ({ value }: useInputProps) => {
   return {
     isFocused,
     ref,
-    handleClick,
+    handleFocus,
     handleBlur,
   };
 };

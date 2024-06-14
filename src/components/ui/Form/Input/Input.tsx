@@ -102,18 +102,18 @@ const Input = ({
   success,
   ...rest
 }: InputProps) => {
-  const { ref, isFocused, handleClick, handleBlur } = useInput({ value });
+  const { ref, isFocused, handleFocus, handleBlur } = useInput({ value });
 
   return (
     <Container
       error={error}
       success={success != null && success}
       focused={`${isFocused}`}
-      onClick={handleClick}
+      onClick={handleFocus}
       onBlur={handleBlur}
     >
       <FormElementLabel isFocused={isFocused}>{placeholder}</FormElementLabel>
-      <InputContent value={value} onChange={onChange} ref={ref} {...rest} />
+      <InputContent onFocus={handleFocus} value={value} onChange={onChange} ref={ref} {...rest} />
       <ErrorLabel error={error}>{error}</ErrorLabel>
     </Container>
   );

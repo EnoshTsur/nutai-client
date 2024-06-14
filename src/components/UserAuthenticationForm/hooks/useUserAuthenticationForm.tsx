@@ -1,7 +1,7 @@
 import { InputField } from "../../ui/Form/types";
 import useForm from "../../ui/Form/hooks/useForm";
 
-const useUserForm = () => {
+const useUserAuthentication = () => {
   const { formState, handleChange } = useForm({
     email: {
       name: "email",
@@ -72,4 +72,4 @@ const useUserForm = () => {
   };
 };
 
-export default useUserForm;
+export default useUserAuthentication;
