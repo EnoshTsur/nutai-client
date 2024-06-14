@@ -8,11 +8,12 @@ const rippleEffect = keyframes`
 `;
 
 const ButtonContainer = styled.button`
-  border: ${({ theme }) => theme.formElement.border};
-  background: ${({ theme }) => theme.formElement.background};
+  border-width: 2px;
+  border-style: solid;
+  background: transparent;
+  border-image: linear-gradient(to right, rgba(100, 0, 100, 1), rgba(100, 0, 70, 0.4)) 1;
   color: ${({ theme }) => theme.formElement.labelColor};
   padding: 0.5rem 1rem;
-  border-radius: 8px;
   position: relative;
   overflow: hidden;
   opacity:${({ disabled }) => disabled ? '0.2' : '1'} ;
@@ -25,7 +26,7 @@ const ButtonContainer = styled.button`
     css`
       &:hover {
         cursor: pointer;
-        background: ${({ theme }) => theme.formElement.backgroundHover};
+        background: linear-gradient(to right, rgba(100, 0, 70, 0.4), rgba(100, 0, 10, 0.4));
       }
 
       &:active::before {
@@ -38,7 +39,6 @@ const ButtonContainer = styled.button`
         left: 50%;
         width: 300%; /* Adjust as needed */
         height: 300%; /* Adjust as needed */
-        border-radius: 50%;
         transform: translate(-50%, -50%);
         animation: ${rippleEffect} 0.3s ease;
       }

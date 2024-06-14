@@ -2,26 +2,29 @@ import React from "react"
 import UserLoginForm from "../components/UserAuthenticationForm/UserLoginForm/UserLoginForm"
 import UserRegister from "../components/UserAuthenticationForm/UserRegisterForm/UserRegisterForm"
 import UserProfileForm from "../components/UserProfileForm/UserProfileForm"
+import Home from "../pages/Home/Home"
 
-type Routes = ReadonlyArray<{ path: string, component: React.ComponentType }>
+type RouteKey = 'home' | 'login' | 'userProfile' | 'register'
 
-const routes: Routes = [
-    {
+type Routes = Readonly<Record<RouteKey, { path: string, component: React.ComponentType }>>
+
+const routes: Routes = {
+    home: {
         path: '/',
-        component: () => <h1 style={{ color: 'white'}}>Home</h1>
+        component: () => <Home />
     },
-    {
+    login: {
         path: '/login',
         component: () => <UserLoginForm />
     },
-    {
+    userProfile: {
         path: '/user-profile',
         component: () => <UserProfileForm />
     },
-    {
+    register: {
         path: '/register',
         component: () => <UserRegister />
     }
-]
+}
 
 export default routes

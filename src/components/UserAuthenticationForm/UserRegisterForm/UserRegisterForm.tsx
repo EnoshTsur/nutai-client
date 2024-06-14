@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 import Button from "../../ui/Button/Button";
+import Card from "../../ui/Card/Card";
 import Form from "../../ui/Form/Form";
 import useUserAuthentication from "../hooks/useUserAuthenticationForm";
 
@@ -57,12 +58,12 @@ const UserRegister = () => {
   };
 
   return (
-    <>
+    <Card>
       <Form formFields={formFields}></Form>
       <Button disabled={false} onClick={handleSubmit}>
         Sign
       </Button>
-    </>
+    </Card>
   );
 };
 
