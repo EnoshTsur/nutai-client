@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useQuery } from "react-query";
+import api from "../../../api/api";
 import Button from "../../ui/Button/Button";
 import Card from "../../ui/Card/Card";
 import Form from "../../ui/Form/Form";
@@ -13,18 +13,10 @@ const fetchToken = async ({
   password: string;
 }) => {
   try {
-    const response = await axios.post(
-      "http://localhost:4899/api/users/login",
-      {
-        email,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await api.post("auth/users/login", {
+      email,
+      password,
+    });
 
     return response.data;
   } catch (error) {
@@ -39,27 +31,25 @@ const UserLoginForm = () => {
   } = useUserAuthenticationForm();
 
   const { refetch } = useQuery(["user-login"], {
-    queryFn: () => fetchToken({ email: email.value ?? "", password: password.value ?? "" }),
+    queryFn: () =>
+      fetchToken({ email: email.value ?? "", password: password.value ?? "" }),
     enabled: false,
     onSuccess: ({ token }) => {
-      localStorage.setItem('token', token)
+      localStorage.setItem("token", token);
     },
     onError: (e) => {
-      console.log(e)
-    }
+      console.log(e);
+    },
   });
 
   const handleSubmit = () => {
-    refetch()
-  }
+    refetch();
+  };
 
   return (
     <Card>
       <Form formFields={formFields}></Form>
-      <Button
-        disabled={false}
-        onClick={handleSubmit}
-      >
+      <Button disabled={false} onClick={handleSubmit}>
         Sign
       </Button>
     </Card>

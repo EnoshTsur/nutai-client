@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import BodyBuilderLogo from "../../components/Logo/BodyBuilderLogo";
 import Nav from "../../components/Nav/Nav";
+import Button from "../../components/ui/Button/Button";
 import Card from "../../components/ui/Card/Card";
+import routes from "../../routes/AppRoutes";
 
 const Text = styled.p<{ color: string }>`
   color: ${({ color }) => color};
@@ -25,10 +28,15 @@ const Container = styled.main`
 `;
 
 const Home = () => {
+
+const navigate = useNavigate()
+
+const { userProfile: { path } } = routes
   return (
     <Container>
       <Nav />
       <Card>
+        <Button onClick={() => navigate(path)}>User profile</Button>
         {/* <InfoArea>
           <div style={{ display: "flex" }}>
             <div style={{ flexBasis: '20%'}}>

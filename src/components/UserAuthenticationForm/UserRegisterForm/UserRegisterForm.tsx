@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useQuery } from "react-query";
+import api from "../../../api/api";
 import Button from "../../ui/Button/Button";
 import Card from "../../ui/Card/Card";
 import Form from "../../ui/Form/Form";
@@ -13,18 +14,10 @@ const registerUser = async ({
   password: string;
 }) => {
   try {
-    const response = await axios.post(
-      "http://localhost:4899/api/users/register",
-      {
-        email,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await api.post("auth/users/register", {
+      email,
+      password,
+    });
 
     return response.data;
   } catch (error) {

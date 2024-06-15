@@ -1,5 +1,3 @@
-import { string } from "fp-ts";
-
 export enum Gender {
   Male = "male",
   Female = "female",

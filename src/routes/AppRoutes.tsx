@@ -6,23 +6,33 @@ import Home from "../pages/Home/Home"
 
 type RouteKey = 'home' | 'login' | 'userProfile' | 'register'
 
-type Routes = Readonly<Record<RouteKey, { path: string, component: React.ComponentType }>>
+export interface RouteValue  { 
+    readonly path: string, 
+    readonly label: string
+    readonly component: React.ComponentType 
+}
 
-const routes: Routes = {
+export type RoutesConFig = Readonly<Record<RouteKey, RouteValue>>
+
+const routes: RoutesConFig = {
     home: {
         path: '/',
+        label: 'Home',
         component: () => <Home />
     },
     login: {
         path: '/login',
+        label: 'Login',
         component: () => <UserLoginForm />
     },
     userProfile: {
         path: '/user-profile',
+        label: 'User  Profile',
         component: () => <UserProfileForm />
     },
     register: {
         path: '/register',
+        label: 'Register',
         component: () => <UserRegister />
     }
 }

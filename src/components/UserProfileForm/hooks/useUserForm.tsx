@@ -140,6 +140,7 @@ const useUserForm = () => {
       genderSelectField,
       activitySelectField,
     ],
+    formState,
   };
 };
 
