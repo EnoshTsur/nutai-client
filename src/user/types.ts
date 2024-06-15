@@ -3,6 +3,14 @@ export enum Gender {
   Female = "female",
 }
 
+export const isGenderKey = (key: string): key is keyof typeof Gender =>
+  Object.keys(Gender).some((k) => k === key);
+
+export const isActivityLevelKey = (
+  key: string
+): key is keyof typeof ActivityLevel =>
+  Object.keys(ActivityLevel).some((k) => k === key);
+
 export enum ActivityLevel {
   Sedentary = 1.2,
   LightlyActive = 1.375,
@@ -17,6 +25,8 @@ export interface UserProfile {
   readonly gender: Gender;
   readonly age: number; // in years
   readonly activityLevel: ActivityLevel;
+  readonly bmr?: number;
+  readonly tdee?: number;
 }
 
 export interface UserProfileStore {
@@ -26,14 +36,11 @@ export interface UserProfileStore {
   readonly setUserProfile: (userProfile: UserProfile) => void;
 }
 
-export const genderKeyGuard = (key: string | undefined): key is keyof typeof Gender => (key ?? '') in Gender
+export const genderKeyGuard = (
+  key: string | undefined
+): key is keyof typeof Gender => (key ?? "") in Gender;
 
-export const activityKeyGuard = (key: string | undefined): key is keyof typeof ActivityLevel => (key ?? '') in ActivityLevel
+export const activityKeyGuard = (
+  key: string | undefined
+): key is keyof typeof ActivityLevel => (key ?? "") in ActivityLevel;
 
-export const userProfileGuard = (userProfile: Readonly<Record<keyof UserProfile, string | number | undefined>>): userProfile is UserProfile => (
-  typeof userProfile.height === 'number' &&
-  typeof userProfile.weight === 'number' &&
-  typeof userProfile.age === 'number' && 
-  typeof userProfile.gender=== 'string' && Object.values(Gender).includes(userProfile.gender as Gender) &&
-  typeof userProfile.activityLevel=== 'number' && Object.values(ActivityLevel).includes(userProfile.activityLevel as ActivityLevel) 
-)

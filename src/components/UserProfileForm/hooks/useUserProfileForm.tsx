@@ -1,7 +1,16 @@
 import { InputField, SelectField } from "../../ui/Form/types";
 import useForm from "../../ui/Form/hooks/useForm";
+import { useMemo } from "react";
+import {
+  ActivityLevel,
+  Gender,
+  isActivityLevelKey,
+  isGenderKey,
+  UserProfile,
+} from "../../../user/types";
+import { calculateBMR, calculateTDEE } from "../../../user/store";
 
-const useUserForm = () => {
+const useUserProfileForm = () => {
   const { formState, handleChange } = useForm({
     age: {
       name: "age",
@@ -29,6 +38,39 @@ const useUserForm = () => {
       success: false,
     },
   });
+
+  const isValidToSubmit = useMemo(
+    () =>
+      Object.values(formState).every(
+        ({ errorMessage, value }) => !errorMessage && !!value
+      ),
+    [formState]
+  );
+
+  const userToSubmit = useMemo(() => {
+    const genderKey = formState.gender.value ?? "";
+    const activityKey =
+      formState.activityLevel.value?.split(" ").join("") ?? "";
+
+    if (
+      isValidToSubmit &&
+      isGenderKey(genderKey) &&
+      isActivityLevelKey(activityKey)
+    ) {
+      const userProfile: UserProfile = {
+        age: Number(formState.age.value),
+        height: Number(formState.height.value),
+        weight: Number(formState.weight.value),
+        gender: Gender[genderKey],
+        activityLevel: ActivityLevel[activityKey],
+      };
+
+      const bmr = calculateBMR(userProfile);
+      const tdee = calculateTDEE(userProfile);
+      return { ...userProfile, tdee, bmr };
+    }
+    return undefined;
+  }, [formState, isValidToSubmit]);
 
   const handleAgeChange = ({
     target: { value, name },
@@ -91,12 +133,13 @@ const useUserForm = () => {
     options: [
       "Sedentary",
       "Lightly Active",
-      "ModeratelyActive",
+      "Moderately Active",
       "Very Active",
       "Extra Active",
     ],
     label: "Activity Level",
-    onChange: (value) => handleChange({ name: formState.activityLevel.name, value }),
+    onChange: (value) =>
+      handleChange({ name: formState.activityLevel.name, value }),
   };
 
   const ageInputFeild: InputField = {
@@ -140,8 +183,9 @@ const useUserForm = () => {
       genderSelectField,
       activitySelectField,
     ],
-    formState,
+    userToSubmit,
+    isValidToSubmit,
   };
 };
 
-export default useUserForm;
+export default useUserProfileForm;

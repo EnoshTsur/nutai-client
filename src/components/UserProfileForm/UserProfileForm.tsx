@@ -1,10 +1,10 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import api from "../../api/api";
 import { ActivityLevel, Gender, UserProfile } from "../../user/types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
-import useUserForm from "./hooks/useUserForm";
+import useUserForm from "./hooks/useUserProfileForm";
 
 const registerUserProfile = async (userProfile: UserProfile) => {
   try {
@@ -17,21 +17,11 @@ const registerUserProfile = async (userProfile: UserProfile) => {
 
 
 const UserProfileForm = () => {
-  const { formFields, formState } = useUserForm()
-
-
-  // @ts-ignore
-  const xxx = useMemo(() => Object.fromEntries(Object.entries(formState).map(([k, { value }]) => k === 'gender' ? [k, Gender[value]] : k === 'activityLevel' ? [k, ActivityLevel[value]] : [k, Number(value)])), [formState])
-
-  useEffect(() => {
-    console.log('!!!',xxx);
-    
-  }, [xxx])
+  const { formFields, isValidToSubmit, userToSubmit } = useUserForm()
 
   const { refetch } = useQuery(["user-profile"], {
     queryFn: () =>
-    // @ts-ignore
-      registerUserProfile(xxx),
+      registerUserProfile(userToSubmit!),
     enabled: false,
     onSuccess: (x) => {
       console.log(x);
@@ -42,14 +32,14 @@ const UserProfileForm = () => {
     },
   });
 
-  const handleSubmit = () => {
-    refetch();
-  };
+  const handleSubmit = useCallback(() => {
+    refetch()
+  }, [refetch, userToSubmit])
 
   return (
     <>
       <Form formFields={formFields}></Form>
-      <Button onClick={handleSubmit}>Sign</Button>
+      <Button disabled={!isValidToSubmit} onClick={handleSubmit}>Sign</Button>
     </>
   );
 };

@@ -18,7 +18,7 @@ export interface InputField {
   readonly name: string
 }
 
-export interface SelectField {
+export interface  SelectField {
   readonly formType: "select";
   readonly options: ReadonlyArray<string>;
   readonly value?: string;
