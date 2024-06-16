@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./GlobalStyles";
-import { darkTheme, lightTheme } from "./theme";
+import { darkTheme } from "./theme";
 import { MemoryRouter, Route, Routes } from "react-router";
 import routes from "./routes/AppRoutes";
 import { QueryClient, QueryClientProvider } from "react-query";
-import useIsUserAuthenticated from "./hooks/useIsUserAthenticated";
 
 const queryClient = new QueryClient();
 
 function App() {
   const [theme, setTheme] = useState(darkTheme);
-
-  const { isAuthenticated } = useIsUserAuthenticated();
-
-  useEffect(() => {
-    console.log({ isAuthenticated });
-  }, [isAuthenticated]);
 
   return (
     <ThemeProvider theme={theme}>

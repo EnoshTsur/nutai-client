@@ -1,14 +1,24 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
+import { InputProps } from "../Input/Input";
 
-type valueType = string | number | readonly string[] | undefined;
-
-interface useInputProps {
-    readonly value: valueType
-}
-
-const useInput = ({ value }: useInputProps) => {
+const useInput = ({ value, type, error, success }: InputProps) => {
   const [isFocused, setFocused] = useState(false);
+  const [inputType, setInputType] = useState(type ?? "text");
   const ref = useRef<HTMLInputElement>(null);
+
+  const handleShowPasswordClick = useCallback(() => {
+    setInputType((pre) => (pre === "password" ? "text" : "password"));
+  }, [inputType, setInputType]);
+
+  const showPasswordColor = useMemo(() => {
+    return error !== ""
+      ? "#dd1a39"
+      : success
+      ? "#13bc2c"
+      : isFocused
+      ? "white"
+      : "#b436b4";
+  }, [error, success, isFocused]);
 
   const handleFocus = useCallback(() => {
     setFocused(true);
@@ -28,6 +38,9 @@ const useInput = ({ value }: useInputProps) => {
     ref,
     handleFocus,
     handleBlur,
+    inputType,
+    handleShowPasswordClick,
+    showPasswordColor,
   };
 };
 

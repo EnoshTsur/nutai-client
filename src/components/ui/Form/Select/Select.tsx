@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import FormElementLabel from "../FloatingLabel/FloatingLabel";
+import FormElementLabel from "../Label/PlaceholderLabel";
 import useSelect from "../hooks/useSelect";
 
 const Container = styled.div<{ isfocused: string; success: boolean }>`

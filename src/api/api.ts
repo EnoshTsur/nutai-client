@@ -1,12 +1,16 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
-const api = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000, // Example timeout setting
   headers: {
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache',
+    Pragma: 'no-cache',
+    Expires: '0',
   },
 });
+
 
 api.interceptors.request.use(
     (config) => {

@@ -1,28 +1,6 @@
 import { create } from "zustand";
-import { ActivityLevel, Gender, UserProfile, UserProfileStore } from "./types";
+import { ActivityLevel, Gender, UserProfileStore } from "./types";
 
-// Calculate Basal Metabolic Rate (BMR) using the Mifflin-St Jeor Equation
-export const calculateBMR = (profile: UserProfile): number => {
-  let bmr: number;
-
-  if (profile.gender === Gender.Male) {
-    bmr = 10 * profile.weight + 6.25 * profile.height - 5 * profile.age + 5;
-  } else {
-    bmr = 10 * profile.weight + 6.25 * profile.height - 5 * profile.age - 161;
-  }
-
-  return bmr;
-};
-
-// Calculate Total Daily Energy Expenditure (TDEE) based on BMR and activity level
-export const calculateTDEE = (profile: UserProfile): number => {
-  const bmr = calculateBMR(profile);
-  const tdee = bmr * profile.activityLevel;
-  return tdee;
-};
-
-
-// TODO:// fix this
 export const useUserProfileStore = create<UserProfileStore>((set) => ({
   userProfile: {
     age: 0,
@@ -33,12 +11,8 @@ export const useUserProfileStore = create<UserProfileStore>((set) => ({
     bmr: 0,
     tdee: 0,
   },
-  userBMR: 0,
-  userTDE: 0,
   setUserProfile: (profile) =>
     set({
       userProfile: profile,
-      userBMR: calculateBMR(profile),
-      userTDE: calculateTDEE(profile),
     }),
 }));

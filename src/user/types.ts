@@ -25,14 +25,17 @@ export interface UserProfile {
   readonly gender: Gender;
   readonly age: number; // in years
   readonly activityLevel: ActivityLevel;
-  readonly bmr?: number;
-  readonly tdee?: number;
+  readonly bmr: number;
+  readonly tdee: number;
 }
+
+export type UserBasicProfile = Pick<
+  UserProfile,
+  "age" | "height" | "weight" | "activityLevel" | "gender"
+>;
 
 export interface UserProfileStore {
   readonly userProfile: UserProfile;
-  readonly userBMR: number;
-  readonly userTDE: number;
   readonly setUserProfile: (userProfile: UserProfile) => void;
 }
 
@@ -43,4 +46,3 @@ export const genderKeyGuard = (
 export const activityKeyGuard = (
   key: string | undefined
 ): key is keyof typeof ActivityLevel => (key ?? "") in ActivityLevel;
-

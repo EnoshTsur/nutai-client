@@ -10,12 +10,13 @@ const Container = styled.div<{ bgColor: string }>`
 
 interface CardProps {
   readonly children: React.ReactNode;
+  readonly style?: React.CSSProperties;
 }
 
-const Card = ({ children }: CardProps) => {
+const Card = ({ children, style }: CardProps) => {
 
   return (
-    <Container bgColor={lighten(0.05, '#000000')}>
+    <Container style={style} bgColor={lighten(0.05, '#000000')}>
       {children}
     </Container>
   );

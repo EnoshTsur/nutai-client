@@ -21,7 +21,7 @@ interface LabelProps {
     readonly isFocused: boolean
 }
 
-const FloatingLabel = ({ children, isFocused, }: LabelProps) => {
+const PlaceholderLabel = ({ children, isFocused, }: LabelProps) => {
     return (
         <Label focused={`${isFocused}`}>
             { children }
@@ -29,4 +29,4 @@ const FloatingLabel = ({ children, isFocused, }: LabelProps) => {
     )
 } 
 
-export default FloatingLabel
+export default PlaceholderLabel

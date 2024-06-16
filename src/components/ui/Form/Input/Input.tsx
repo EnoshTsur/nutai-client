@@ -1,25 +1,9 @@
-import { useEffect } from "react";
-import styled, { css, keyframes } from "styled-components";
-import FormElementLabel from "../FloatingLabel/FloatingLabel";
+import styled, { css } from "styled-components";
+import PlaceholderLabel from "../Label/PlaceholderLabel";
 import useInput from "../hooks/useInput";
-
-const shakeAnimation = keyframes`
-  0% {
-    transform: translateX(-5rem);
-  }
-  25% {
-    transform: translateX(1rem);
-  }
-  50% {
-    transform: translateX(-2rem);
-  }
-  75% {
-    transform: translateX(1rem);
-  }
-  100% {
-    transform: translateX(0);
-  }
-`;
+import { BiShow } from "react-icons/bi";
+import { lighten } from "polished";
+import ErrorLabel from "../Label/ErrorLabel";
 
 const Container = styled.div<{
   focused: string;
@@ -37,6 +21,9 @@ const Container = styled.div<{
   position: relative;
   border: ${({ theme }) => theme.formElement.border};
   padding: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   ${({ focused, success, theme }) => {
     if (success) {
       return css`
@@ -57,11 +44,19 @@ const Container = styled.div<{
 const InputContent = styled.input`
   border: none;
   color: ${({ theme }) => theme.formElement.color};
-  width: 100%;
   background: transparent;
   padding-left: 1rem;
+  flex-basis: 97%;
   &:focus {
     outline: none;
+  }
+
+  @media (max-width: 768px) {
+    flex-basis: 95%;
+  }
+
+  @media (max-width: 500px) {
+    flex-basis: 80%;
   }
 
   -moz-appearance: textfield;
@@ -72,20 +67,26 @@ const InputContent = styled.input`
   }
 `;
 
-const ErrorLabel = styled.label<{ error: string }>`
-  position: absolute;
-  padding: 0 0.2rem;
-  top: 2.5rem;
-  color: rgb(255, 1, 60);
-  font-size: 0.8rem;
-  ${({ error }) =>
-    error !== "" &&
-    css`
-      animation: ${shakeAnimation} 0.8s ease-in-out;
-    `}
+const Show = styled(BiShow)<{ color: string }>`
+  color: ${({ color }) => color};
+  padding: 0 1rem;
+  flex-basis: 3%;
+  cursor: pointer !important;
+
+  @media (max-width: 768px) {
+    flex-basis: 5%;
+  }
+
+  @media (max-width: 500px) {
+    flex-basis: 10%;
+  }
+
+  &:hover {
+    color: ${({ color }) => lighten(0.2, color)} !important;
+  }
 `;
 
-interface InputProps
+export interface InputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
@@ -100,9 +101,18 @@ const Input = ({
   onChange,
   error = "",
   success,
+  type,
   ...rest
 }: InputProps) => {
-  const { ref, isFocused, handleFocus, handleBlur } = useInput({ value });
+  const {
+    ref,
+    isFocused,
+    handleFocus,
+    handleBlur,
+    inputType,
+    handleShowPasswordClick,
+    showPasswordColor,
+  } = useInput({ value, type, error, success });
 
   return (
     <Container
@@ -112,8 +122,18 @@ const Input = ({
       onClick={handleFocus}
       onBlur={handleBlur}
     >
-      <FormElementLabel isFocused={isFocused}>{placeholder}</FormElementLabel>
-      <InputContent onFocus={handleFocus} value={value} onChange={onChange} ref={ref} {...rest} />
+      <PlaceholderLabel isFocused={isFocused}>{placeholder}</PlaceholderLabel>
+      <InputContent
+        onFocus={handleFocus}
+        value={value}
+        onChange={onChange}
+        ref={ref}
+        type={inputType}
+        {...rest}
+      />
+      {type === "password" && (
+        <Show onClick={handleShowPasswordClick} color={showPasswordColor} />
+      )}
       <ErrorLabel error={error}>{error}</ErrorLabel>
     </Container>
   );

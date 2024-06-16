@@ -6,9 +6,8 @@ import {
   Gender,
   isActivityLevelKey,
   isGenderKey,
-  UserProfile,
+  UserBasicProfile,
 } from "../../../user/types";
-import { calculateBMR, calculateTDEE } from "../../../user/store";
 
 const useUserProfileForm = () => {
   const { formState, handleChange } = useForm({
@@ -57,7 +56,7 @@ const useUserProfileForm = () => {
       isGenderKey(genderKey) &&
       isActivityLevelKey(activityKey)
     ) {
-      const userProfile: UserProfile = {
+      const userProfile: UserBasicProfile = {
         age: Number(formState.age.value),
         height: Number(formState.height.value),
         weight: Number(formState.weight.value),
@@ -65,9 +64,7 @@ const useUserProfileForm = () => {
         activityLevel: ActivityLevel[activityKey],
       };
 
-      const bmr = calculateBMR(userProfile);
-      const tdee = calculateTDEE(userProfile);
-      return { ...userProfile, tdee, bmr };
+      return userProfile
     }
     return undefined;
   }, [formState, isValidToSubmit]);

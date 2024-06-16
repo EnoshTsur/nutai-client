@@ -53,7 +53,7 @@ const Nav = () => {
   const { login, register } = routes;
 
   return (
-    <Card>
+    <Card >
       <NavContainer>
         <HeaderItems>
           <NavHeader>NutAI</NavHeader>
