@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import FormElementLabel from "../Label/PlaceholderLabel";
 import useSelect from "../hooks/useSelect";
+import React, { useRef } from "react";
 
 const Container = styled.div<{ isfocused: string; success: boolean }>`
   position: relative;
@@ -39,14 +40,15 @@ const OptionsContainer = styled.div<{ open: string }>`
   z-index: 2;
 `;
 
-const Option = styled.div`
+const Option = styled.div<{ isActive: boolean }>`
   padding: 0.5rem 1rem;
   color: white;
   cursor: pointer;
-
-  &:hover {
-    background: linear-gradient(to left, transparent, rgba(100, 0, 100, 0.7));
-  }
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      background: linear-gradient(to left, transparent, rgba(100, 0, 100, 0.7));
+    `}
 `;
 
 interface SelectProps {
@@ -58,8 +60,20 @@ interface SelectProps {
 }
 
 const Select = ({ value, options, label, success, onChange }: SelectProps) => {
-  const { isFocused, isOpen, orderedOptions, handleBlur, handleClick, handleFocus } =
-    useSelect({ options, value,  });
+  const {
+    isFocused,
+    isOpen,
+    orderedOptions,
+    activeIndex,
+    containerRef,
+    handleBlur,
+    handleClick,
+    handleFocus,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleOptionSelection,
+  } = useSelect({ options, value, onChange });
 
   return (
     <Container
@@ -69,13 +83,21 @@ const Select = ({ value, options, label, success, onChange }: SelectProps) => {
       onBlur={handleBlur}
       success={success != null && success}
       onFocus={handleFocus}
+      onKeyDown={handleKeyDown}
+      ref={containerRef}
     >
       <FormElementLabel isFocused={isFocused}>{label}</FormElementLabel>
       <span style={{ padding: "0 0.5rem" }}>{value}</span>
       <OptionsContainer open={`${isOpen}`}>
         {isOpen &&
-          orderedOptions.map((option) => (
-            <Option key={label} onClick={() => onChange(option)}>
+          orderedOptions.map((option, index) => (
+            <Option
+              key={label}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={() => handleMouseLeave()}
+              onClick={() => handleOptionSelection(option)}
+              isActive={activeIndex === index}
+            >
               {option}
             </Option>
           ))}
