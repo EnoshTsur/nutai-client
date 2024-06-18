@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import api from "../../api/api";
-import { ActivityLevel, Gender, UserBasicProfile, UserProfile } from "../../user/types";
+import { ActivityLevel, Gender, UserBasicProfile, UserProfile } from "../../store/user/types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
 import useUserForm from "./hooks/useUserProfileForm";

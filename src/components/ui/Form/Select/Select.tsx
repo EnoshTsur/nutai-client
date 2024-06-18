@@ -28,14 +28,14 @@ const Container = styled.div<{ isfocused: string; success: boolean }>`
   cursor: pointer;
 `;
 
-const OptionsContainer = styled.div<{ open: string }>`
+const OptionsContainer = styled.div<{ open: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   border-radius: 8px;
   border-top: none;
-  display: ${({ open }) => (open === "true" ? "block" : "none")};
+  display: ${({ open }) => (open ? "block" : "none")};
   background: rgba(0, 0, 0, 0.9);
   z-index: 2;
 `;
@@ -88,7 +88,7 @@ const Select = ({ value, options, label, success, onChange }: SelectProps) => {
     >
       <FormElementLabel isFocused={isFocused}>{label}</FormElementLabel>
       <span style={{ padding: "0 0.5rem" }}>{value}</span>
-      <OptionsContainer open={`${isOpen}`}>
+      <OptionsContainer open={isOpen}>
         {isOpen &&
           orderedOptions.map((option, index) => (
             <Option

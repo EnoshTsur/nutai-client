@@ -1,13 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import BodyBuilderLogo from "../../components/Logo/BodyBuilderLogo";
 import Nav from "../../components/Nav/Nav";
 import Button from "../../components/ui/Button/Button";
-import Card from "../../components/ui/Card/Card";
 import useIsUserAuthenticated from "../../hooks/useIsUserAthenticated";
 import routes from "../../routes/AppRoutes";
-import { useUserProfileStore } from "../../user/store";
+import { useProgressStore } from "../../store/progress/store";
 
 const Text = styled.p<{ color: string }>`
   color: ${({ color }) => color};
@@ -45,13 +43,14 @@ const Container = styled.main`
 const Home = () => {
   const navigate = useNavigate();
 
-  const { isAuthenticated, hasProfile } = useIsUserAuthenticated();
+   useIsUserAuthenticated();
+
+  const { stage } = useProgressStore(({ stage }) => ({ stage }))
 
   useEffect(() => {
-    if (isAuthenticated && hasProfile) {
-      navigate('/all-good')
-    }
-  }, [isAuthenticated, hasProfile])
+    console.log({ stage });
+    
+  }, [stage])
 
   const {
     userProfile: { path },
@@ -70,7 +69,7 @@ const Home = () => {
           Each week, update your weight and status, and our AI will analyze your
           progress.
         </Text>
-       { (isAuthenticated && !hasProfile) && <Button onClick={() => navigate('/user-profile')}>User  Profile</Button> }
+       <Button onClick={() => navigate('/user-profile')}>User  Profile</Button>
       </InfoAreaContainer>
     </Container>
   );

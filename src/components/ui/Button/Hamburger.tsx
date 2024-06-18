@@ -29,7 +29,7 @@ const HamburgerButton = styled(Button)`
   }
 `;
 
-const HamburgerMenu = styled.div<{ isOpen: boolean }>`
+const HamburgerMenu = styled.div<{ isopen: boolean }>`
   position: fixed;
   top: 5.5rem;
   right: 1rem;
@@ -43,8 +43,8 @@ const HamburgerMenu = styled.div<{ isOpen: boolean }>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  ${({ isOpen }) =>
-    isOpen &&
+  ${({ isopen }) =>
+  isopen &&
     css`
       animation: ${openAnimation} 1s;
     `}
@@ -60,15 +60,15 @@ const HamburgerMenuItem = styled.div`
   }
 `;
 
-const Line = styled.div<{ isOpen: boolean }>`
+const Line = styled.div<{ isopen: boolean }>`
   width: 95%;
   border-width: 1px;
   border-style: solid;
   border-image: linear-gradient(to top, purple, #d589d5) 1;
   transition: transform 0.5s ease-out;
 
-  ${({ isOpen }) =>
-    isOpen &&
+  ${({ isopen }) =>
+  isopen &&
     `
     &:nth-child(1) {
       transform: translate(-8px, 7px) rotate(90deg);
@@ -95,7 +95,7 @@ const Hamburger = ({ routes }: HamburgerProps) => {
   return (
     <>
       <Backdrop isOpen={isOpen} close={close}>
-        <HamburgerMenu isOpen={isOpen}>
+        <HamburgerMenu isopen={isOpen}>
           {routes.map(({ path, label }) => (
             <HamburgerMenuItem
               key={`hamburger-${path}`}
@@ -108,7 +108,7 @@ const Hamburger = ({ routes }: HamburgerProps) => {
       </Backdrop>
       <HamburgerButton onClick={open}>
         {Array.from({ length: 3 }).map((_, i) => (
-          <Line key={`line ${i}`} isOpen={isOpen} />
+          <Line key={`line ${i}`} isopen={isOpen} />
         ))}
       </HamburgerButton>
     </>

@@ -7,7 +7,7 @@ import {
   isActivityLevelKey,
   isGenderKey,
   UserBasicProfile,
-} from "../../../user/types";
+} from "../../../store/user/types";
 
 const useUserProfileForm = () => {
   const { formState, handleChange } = useForm({
