@@ -3,8 +3,9 @@ import UserLoginForm from "../components/UserAuthenticationForm/UserLoginForm/Us
 import UserRegister from "../components/UserAuthenticationForm/UserRegisterForm/UserRegisterForm";
 import UserProfileForm from "../components/UserProfileForm/UserProfileForm";
 import Home from "../pages/Home/Home";
+import FoodItemForm from "../components/FoodItemForm/FoodItemForm";
 
-type RouteKey = "home" | "login" | "userProfile" | "register" | "allGood";
+type RouteKey = "home" | "login" | "userProfile" | "register" | "foodItem";
 
 export interface RouteValue {
   readonly path: string;
@@ -15,10 +16,10 @@ export interface RouteValue {
 export type RoutesConFig = Readonly<Record<RouteKey, RouteValue>>;
 
 const routes: RoutesConFig = {
-  allGood: {
-    path: "/all-good",
-    label: "All Good",
-    component: () => <h1 style={{ color: 'white', textAlign: 'center'}}>All good</h1>,
+  foodItem: {
+    path: "/food-item",
+    label: "Food Item",
+    component: () => <FoodItemForm />,
   },
   home: {
     path: "/",

@@ -70,7 +70,6 @@ const useIsUserAuthenticated = () => {
         (progress, passed) => (passed ? progress + 1 : progress),
         1
       );
-      debugger;
       setStage(stage);
     }
   }, [userProfileQuery.isSuccess, tokenQuery.isSuccess, userProfileQuery.data]);

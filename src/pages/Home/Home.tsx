@@ -70,6 +70,8 @@ const Home = () => {
           progress.
         </Text>
        <Button onClick={() => navigate('/user-profile')}>User  Profile</Button>
+       <Button onClick={() => navigate('/food-item')}>Food Item</Button>
+
       </InfoAreaContainer>
     </Container>
   );
