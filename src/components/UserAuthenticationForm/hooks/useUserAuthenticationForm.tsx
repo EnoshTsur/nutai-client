@@ -1,4 +1,3 @@
-import { InputField } from "../../ui/Form/types";
 import useForm from "../../ui/Form/hooks/useForm";
 
 const useUserAuthentication = () => {
@@ -44,30 +43,9 @@ const useUserAuthentication = () => {
     });
   };
 
-  const emailInputField: InputField = {
-    formType: "input",
-    inputType: "email",
-    value: formState.email.value,
-    errorMessage: formState.email.errorMessage,
-    success: formState.email.success,
-    label: "Email",
-    name: formState.email.name,
-    onChange: handleEmailChange,
-  };
-
-  const passwordInputFeild: InputField = {
-    formType: "input",
-    inputType: "password",
-    value: formState.password.value,
-    errorMessage: formState.password.errorMessage,
-    success: formState.password.success,
-    label: "Password",
-    name: formState.password.name,
-    onChange: handlePasswordChange,
-  };
-
   return {
-    formFields: [emailInputField, passwordInputFeild],
+    handleEmailChange,
+    handlePasswordChange,
     formState,
   };
 };

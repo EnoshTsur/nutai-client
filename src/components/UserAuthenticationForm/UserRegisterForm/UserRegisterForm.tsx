@@ -1,10 +1,9 @@
-import axios from "axios";
 import { useQuery } from "react-query";
 import api from "../../../api/api";
 import Button from "../../ui/Button/Button";
-import Card from "../../ui/Card/Card";
-import Form from "../../ui/Form/Form";
 import useUserAuthentication from "../hooks/useUserAuthenticationForm";
+import Input from "../../ui/Form/Input/Input";
+import FormContainer from "../../ui/Form/FormContainer";
 
 const registerUser = async ({
   email,
@@ -27,8 +26,9 @@ const registerUser = async ({
 
 const UserRegister = () => {
   const {
-    formFields,
     formState: { email, password },
+    handleEmailChange,
+    handlePasswordChange,
   } = useUserAuthentication();
 
   const { refetch } = useQuery(["user-register"], {
@@ -51,12 +51,29 @@ const UserRegister = () => {
   };
 
   return (
-    <Card>
-      <Form formFields={formFields}></Form>
+    <FormContainer>
+      <Input
+        name="email"
+        type="email"
+        value={email.value}
+        onChange={handleEmailChange}
+        placeholder="Email"
+        error={email.errorMessage}
+        success={email.success}
+      />
+      <Input
+        name="password"
+        type="password"
+        value={password.value}
+        onChange={handlePasswordChange}
+        placeholder="Password"
+        error={password.errorMessage}
+        success={password.success}
+      />
       <Button disabled={false} onClick={handleSubmit}>
         Sign
       </Button>
-    </Card>
+    </FormContainer>
   );
 };
 

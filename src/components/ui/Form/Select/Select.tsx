@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
 import FormElementLabel from "../Label/PlaceholderLabel";
 import useSelect from "../hooks/useSelect";
-import React, { useRef } from "react";
 
 const Container = styled.div<{ isfocused: string; success: boolean }>`
   position: relative;
   padding: 0.5rem 0;
   color: white;
+  width: 100%;
   background: ${({ theme }) => theme.formElement.background};
   ${({ isfocused, success, theme }) => {
     if (success) {
