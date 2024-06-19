@@ -1,6 +1,10 @@
 import styled, { css } from "styled-components"
 
-const Label = styled.label<{ focused: string }>`
+interface LabelProps {
+    readonly focused: 1 | 0
+}
+
+const Label = styled.label<LabelProps>`
   position: absolute;
   padding: 0 0.2rem;
   top: 20%;
@@ -8,7 +12,7 @@ const Label = styled.label<{ focused: string }>`
   color: ${({ theme }) => theme.formElement.labelColor};
   transition: all 400ms ease-in-out;
   ${({ focused, theme }) =>
-    focused === "true" &&
+    focused === 1 &&
     css`
       top: -1.5rem;
       left: 0;
@@ -16,14 +20,14 @@ const Label = styled.label<{ focused: string }>`
     `}
 `
 
-interface LabelProps {
+interface PlaceholderLabelProps {
     readonly children: React.ReactNode
     readonly isFocused: boolean
 }
 
-const PlaceholderLabel = ({ children, isFocused, }: LabelProps) => {
+const PlaceholderLabel = ({ children, isFocused, }: PlaceholderLabelProps) => {
     return (
-        <Label focused={`${isFocused}`}>
+        <Label focused={isFocused ? 1 : 0}>
             { children }
         </Label>
     )

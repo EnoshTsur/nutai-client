@@ -1,10 +1,9 @@
 import { useQuery } from "react-query";
-import api from "../../../api/api";
+import userDetailsApi from "../../../api/userDetailsApi";
 import Button from "../../ui/Button/Button";
 import useUserAuthenticationForm from "../hooks/useUserAuthenticationForm";
 import Input from "../../ui/Form/Input/Input";
 import FormContainer from "../../ui/Form/FormContainer";
-
 
 const fetchToken = async ({
   email,
@@ -14,7 +13,7 @@ const fetchToken = async ({
   password: string;
 }) => {
   try {
-    const response = await api.post("auth/users/login", {
+    const response = await userDetailsApi.post("auth/users/login", {
       email,
       password,
     });
@@ -37,6 +36,7 @@ const UserLoginForm = () => {
       fetchToken({ email: email.value!, password: password.value! }),
     enabled: false,
     onSuccess: ({ token }) => {
+      console.log('logim success', {token});
       localStorage.setItem("token", token);
     },
     onError: (e) => {

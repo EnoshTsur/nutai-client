@@ -71,6 +71,7 @@ const Home = () => {
         </Text>
        <Button onClick={() => navigate('/user-profile')}>User  Profile</Button>
        <Button onClick={() => navigate('/food-item')}>Food Item</Button>
+       <Button onClick={() => navigate('/food-items')}>All food Items</Button>
 
       </InfoAreaContainer>
     </Container>

@@ -5,11 +5,13 @@ import { BiShow } from "react-icons/bi";
 import { lighten } from "polished";
 import ErrorLabel from "../Label/ErrorLabel";
 
-const Container = styled.div<{
-  focused: string;
-  error: string;
-  success: boolean;
-}>`
+interface ContainerProps {
+  readonly focused: 1 | 0
+  readonly success: 1 | 0
+  readonly error: string
+}
+
+const Container = styled.div<ContainerProps>`
   ${({ error, theme }) =>
     error === ""
       ? css`
@@ -26,7 +28,7 @@ const Container = styled.div<{
   align-items: center;
   width: 100%;
   ${({ focused, success, theme }) => {
-    if (success) {
+    if (success === 1) {
       return css`
         border-image: linear-gradient(to right, lime, #028535) 1;
         border-style: solid;
@@ -34,7 +36,7 @@ const Container = styled.div<{
       `;
     }
     return (
-      focused === "true" &&
+      focused === 1 &&
       css`
         border: ${theme.formElement.borderFocus};
       `
@@ -118,8 +120,8 @@ const Input = ({
   return (
     <Container
       error={error}
-      success={success != null && success}
-      focused={`${isFocused}`}
+      success={success ? 1 : 0}
+      focused={isFocused ? 1 : 0}
       onClick={handleFocus}
       onBlur={handleBlur}
     >

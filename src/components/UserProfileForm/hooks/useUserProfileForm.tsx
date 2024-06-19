@@ -12,27 +12,27 @@ const useUserProfileForm = () => {
   const { formState, handleChange } = useForm({
     age: {
       name: "age",
-      value: undefined,
+      value: "",
       success: false,
     },
     weight: {
       name: "weight",
-      value: undefined,
+      value: "",
       success: false,
     },
     height: {
       name: "height",
-      value: undefined,
+      value: "",
       success: false,
     },
     gender: {
       name: "gender",
-      value: undefined,
+      value: "",
       success: false,
     },
     activityLevel: {
       name: "activityLevel",
-      value: undefined,
+      value: "",
       success: false,
     },
   });
@@ -118,8 +118,6 @@ const useUserProfileForm = () => {
 
   const handleActivityLevelChange = (value: string) =>
     handleChange({ name: formState.activityLevel.name, value });
-
-  
 
   return {
     userToSubmit,

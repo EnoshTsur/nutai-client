@@ -4,12 +4,12 @@ const useUserAuthentication = () => {
   const { formState, handleChange } = useForm({
     email: {
       name: "email",
-      value: undefined,
+      value: "",
       success: false,
     },
     password: {
       name: "password",
-      value: undefined,
+      value: "",
       success: false,
     },
   });

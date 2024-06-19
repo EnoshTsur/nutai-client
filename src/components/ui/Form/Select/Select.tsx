@@ -2,14 +2,19 @@ import styled, { css } from "styled-components";
 import FormElementLabel from "../Label/PlaceholderLabel";
 import useSelect from "../hooks/useSelect";
 
-const Container = styled.div<{ isfocused: string; success: boolean }>`
+interface ContainerProps {
+  readonly isfocused: 1 | 0
+  readonly success: 1 | 0
+}
+
+const Container = styled.div<ContainerProps>`
   position: relative;
   padding: 0.5rem 0;
   color: white;
   width: 100%;
   background: ${({ theme }) => theme.formElement.background};
   ${({ isfocused, success, theme }) => {
-    if (success) {
+    if (success === 1) {
       return css`
         border-image: linear-gradient(to right, lime, #028535) 1;
         border-style: solid;
@@ -17,7 +22,7 @@ const Container = styled.div<{ isfocused: string; success: boolean }>`
       `;
     }
 
-    return isfocused === "true"
+    return isfocused === 1
       ? css`
           border: ${theme.formElement.borderFocus};
         `
@@ -28,24 +33,33 @@ const Container = styled.div<{ isfocused: string; success: boolean }>`
   cursor: pointer;
 `;
 
-const OptionsContainer = styled.div<{ open: boolean }>`
+interface OptionsContainerProps {
+  readonly isopen: 1 | 0
+}
+
+const OptionsContainer = styled.div<OptionsContainerProps>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   border-radius: 8px;
   border-top: none;
-  display: ${({ open }) => (open ? "block" : "none")};
+  display: ${({ isopen }) => (isopen === 1 ? "block" : "none")};
   background: rgba(0, 0, 0, 0.9);
   z-index: 2;
 `;
 
-const Option = styled.div<{ isActive: boolean }>`
+interface OptionProps {
+  readonly isactive: 1 | 0
+}
+
+
+const Option = styled.div<OptionProps>`
   padding: 0.5rem 1rem;
   color: white;
   cursor: pointer;
-  ${({ isActive }) =>
-    isActive &&
+  ${({ isactive }) =>
+    isactive === 1 &&
     css`
       background: linear-gradient(to left, transparent, rgba(100, 0, 100, 0.7));
     `}
@@ -78,25 +92,25 @@ const Select = ({ value, options, label, success, onChange }: SelectProps) => {
   return (
     <Container
       tabIndex={0}
-      isfocused={`${isFocused}`}
+      isfocused={isFocused ? 1 : 0}
       onClick={handleClick}
       onBlur={handleBlur}
-      success={success != null && success}
+      success={success ? 1 : 0}
       onFocus={handleFocus}
       onKeyDown={handleKeyDown}
       ref={containerRef}
     >
       <FormElementLabel isFocused={isFocused}>{label}</FormElementLabel>
       <span style={{ padding: "0 0.5rem" }}>{value}</span>
-      <OptionsContainer open={isOpen}>
+      <OptionsContainer isopen={isOpen ? 1 : 0}>
         {isOpen &&
           orderedOptions.map((option, index) => (
             <Option
-              key={label}
+              key={`${label}-${index}`}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave()}
               onClick={() => handleOptionSelection(option)}
-              isActive={activeIndex === index}
+              isactive={activeIndex === index ? 1 : 0}
             >
               {option}
             </Option>

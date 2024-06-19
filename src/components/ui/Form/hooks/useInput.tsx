@@ -8,7 +8,7 @@ const useInput = ({ value, type, error, success }: InputProps) => {
 
   const handleShowPasswordClick = useCallback(() => {
     setInputType((pre) => (pre === "password" ? "text" : "password"));
-  }, [inputType, setInputType]);
+  }, [setInputType]);
 
   const showPasswordColor = useMemo(() => {
     return error !== ""
@@ -25,10 +25,10 @@ const useInput = ({ value, type, error, success }: InputProps) => {
     if (ref.current != null) {
       ref.current.focus();
     }
-  }, [ref.current]);
+  }, []);
 
   const handleBlur = useCallback(() => {
-    if (value == null || value == "") {
+    if (value == null || value === "") {
       setFocused(false);
     }
   }, [setFocused, value]);

@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
-const api: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+const userDetailsApi: AxiosInstance = axios.create({
+  baseURL: process.env.REACT_APP_USER_DETAILS_API,
   timeout: 10000, // Example timeout setting
   headers: {
     'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const api: AxiosInstance = axios.create({
 });
 
 
-api.interceptors.request.use(
+userDetailsApi.interceptors.request.use(
     (config) => {
       // Check if token exists in localStorage
       const token = localStorage.getItem('token');
@@ -26,4 +26,4 @@ api.interceptors.request.use(
     }
   );
 
-export default api;
+export default userDetailsApi;

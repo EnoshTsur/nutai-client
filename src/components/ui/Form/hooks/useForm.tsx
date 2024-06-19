@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface FormFieldState {
   readonly name: FormStateKey;
-  readonly value: string | undefined;
+  readonly value: string;
   readonly success: boolean;
   readonly errorMessage?: string | undefined;
 }

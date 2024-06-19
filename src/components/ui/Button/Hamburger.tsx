@@ -29,7 +29,11 @@ const HamburgerButton = styled(Button)`
   }
 `;
 
-const HamburgerMenu = styled.div<{ isopen: boolean }>`
+interface HamburderMenuProps {
+  readonly isopen: 1 | 0;
+}
+
+const HamburgerMenu = styled.div<HamburderMenuProps>`
   position: fixed;
   top: 5.5rem;
   right: 1rem;
@@ -43,11 +47,7 @@ const HamburgerMenu = styled.div<{ isopen: boolean }>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  ${({ isopen }) =>
-  isopen &&
-    css`
-      animation: ${openAnimation} 1s;
-    `}
+  animation: ${({ isopen }) => (isopen ? openAnimation : "none")};
 `;
 
 const HamburgerMenuItem = styled.div`
@@ -60,28 +60,31 @@ const HamburgerMenuItem = styled.div`
   }
 `;
 
-const Line = styled.div<{ isopen: boolean }>`
+interface LineProps {
+  readonly isopen: 1 | 0;
+}
+
+const Line = styled.div<LineProps>`
   width: 95%;
   border-width: 1px;
   border-style: solid;
   border-image: linear-gradient(to top, purple, #d589d5) 1;
   transition: transform 0.5s ease-out;
-
   ${({ isopen }) =>
-  isopen &&
-    `
-    &:nth-child(1) {
-      transform: translate(-8px, 7px) rotate(90deg);
-    }
+    isopen &&
+    css`
+      &:nth-child(1) {
+        transform: translate(-8px, 7px) rotate(90deg);
+      }
 
-    &:nth-child(2) {
-      transform: translate(-1px, 1px) rotate(90deg);
-    }
+      &:nth-child(2) {
+        transform: translate(-1px, 1px) rotate(90deg);
+      }
 
-    &:nth-child(3) {
-      transform: translate(6px, -6px) rotate(90deg);
-    }
-  `}
+      &:nth-child(3) {
+        transform: translate(6px, -6px) rotate(90deg);
+      }
+    `};
 `;
 
 interface HamburgerProps {
@@ -95,7 +98,7 @@ const Hamburger = ({ routes }: HamburgerProps) => {
   return (
     <>
       <Backdrop isOpen={isOpen} close={close}>
-        <HamburgerMenu isopen={isOpen}>
+        <HamburgerMenu isopen={isOpen ? 1 : 0}>
           {routes.map(({ path, label }) => (
             <HamburgerMenuItem
               key={`hamburger-${path}`}
@@ -108,7 +111,10 @@ const Hamburger = ({ routes }: HamburgerProps) => {
       </Backdrop>
       <HamburgerButton onClick={open}>
         {Array.from({ length: 3 }).map((_, i) => (
-          <Line key={`line ${i}`} isopen={isOpen} />
+          <Line
+            key={`line ${i}`}
+            isopen={isOpen ? 1 : 0}
+          />
         ))}
       </HamburgerButton>
     </>

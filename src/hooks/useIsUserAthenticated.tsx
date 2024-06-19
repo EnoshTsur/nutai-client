@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import api from "../api/api";
+import userDetailsApi from "../api/userDetailsApi";
 import { useProgressStore } from "../store/progress/store";
 import { useUserProfileStore } from "../store/user/store";
 import { UserProfile } from "../store/user/types";
 
 const validateToken = async () => {
   try {
-    const response = await api.get("auth/users/validateToken");
+    const response = await userDetailsApi.get("auth/users/validateToken");
     return response.data;
   } catch (error) {
     throw error;
@@ -16,7 +16,7 @@ const validateToken = async () => {
 
 const getUserProfile = async () => {
   try {
-    const response = await api.get("profile/users/get");
+    const response = await userDetailsApi.get("profile/users/get");
     return response.data;
   } catch (error) {
     throw error;

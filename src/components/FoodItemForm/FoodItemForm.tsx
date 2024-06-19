@@ -1,15 +1,18 @@
 import { useCallback } from "react";
 import { useQuery } from "react-query";
-import api from "../../api/api";
-import { UserBasicProfile } from "../../store/user/types";
 import Button from "../ui/Button/Button";
 import Input from "../ui/Form/Input/Input";
 import FormContainer from "../ui/Form/FormContainer";
 import useFoodItemForm from "./hooks/useFoodItemForm";
+import foodItemApi from "../../api/foodItemApi";
+import { FoodItem } from "../../store/foodItem/types";
 
-const registerUserProfile = async (userProfile: UserBasicProfile) => {
+const addFoodItem = async (foodItem: FoodItem) => {
   try {
-    const response = await api.post("profile/users/new", userProfile);
+    const response = await foodItemApi.post(
+      "food-item/new",
+      foodItem
+    );
     return response.data;
   } catch (error) {
     throw error;
@@ -28,13 +31,14 @@ const FoodItemForm = () => {
       carbohydrate,
       protein,
     },
+    extractFoodItem,
     handleNameChange,
     handlePackageChange,
     handleAomuntChange,
   } = useFoodItemForm();
 
   const { refetch } = useQuery(["food-item"], {
-    queryFn: () => {},
+    queryFn: () => addFoodItem(extractFoodItem!),
     enabled: false,
     onSuccess: (x) => {
       console.log(x);
@@ -45,8 +49,10 @@ const FoodItemForm = () => {
   });
 
   const handleSubmit = useCallback(() => {
-    refetch();
-  }, [refetch]);
+    if (extractFoodItem) {
+        refetch();
+    }
+  }, [refetch, extractFoodItem]);
 
   return (
     <FormContainer>
@@ -59,7 +65,7 @@ const FoodItemForm = () => {
         placeholder="Name"
         onChange={handleNameChange}
       />
-       <Input
+      <Input
         name="brand"
         type="text"
         value={brand.value}
@@ -86,7 +92,7 @@ const FoodItemForm = () => {
         placeholder="Package Amount"
         onChange={handlePackageChange}
       />
-       <Input
+      <Input
         name="calories"
         type="number"
         value={calories.value}
@@ -122,7 +128,7 @@ const FoodItemForm = () => {
         placeholder="Protein"
         onChange={handleAomuntChange}
       />
-      <Button disabled={true} onClick={handleSubmit}>
+      <Button disabled={extractFoodItem == null} onClick={handleSubmit}>
         Sign
       </Button>
     </FormContainer>

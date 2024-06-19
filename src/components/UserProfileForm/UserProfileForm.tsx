@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useQuery } from "react-query";
-import api from "../../api/api";
+import userDetailsApi from "../../api/userDetailsApi";
 import { UserBasicProfile } from "../../store/user/types";
 import Button from "../ui/Button/Button";
 import useUserForm from "./hooks/useUserProfileForm";
@@ -10,7 +10,10 @@ import FormContainer from "../ui/Form/FormContainer";
 
 const registerUserProfile = async (userProfile: UserBasicProfile) => {
   try {
-    const response = await api.post("profile/users/new", userProfile);
+    const response = await userDetailsApi.post(
+      "profile/users/new",
+      userProfile
+    );
     return response.data;
   } catch (error) {
     throw error;

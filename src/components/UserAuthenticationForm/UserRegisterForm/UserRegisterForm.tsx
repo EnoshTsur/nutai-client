@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import api from "../../../api/api";
+import userDetailsApi from "../../../api/userDetailsApi";
 import Button from "../../ui/Button/Button";
 import useUserAuthentication from "../hooks/useUserAuthenticationForm";
 import Input from "../../ui/Form/Input/Input";
@@ -13,7 +13,7 @@ const registerUser = async ({
   password: string;
 }) => {
   try {
-    const response = await api.post("auth/users/register", {
+    const response = await userDetailsApi.post("auth/users/register", {
       email,
       password,
     });
@@ -39,6 +39,8 @@ const UserRegister = () => {
       }),
     enabled: false,
     onSuccess: ({ token }) => {
+      console.log('register success', { token });
+      
       localStorage.setItem("token", token);
     },
     onError: (e) => {
