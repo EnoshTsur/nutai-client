@@ -4,6 +4,8 @@ import Button from "../../ui/Button/Button";
 import useUserAuthentication from "../hooks/useUserAuthenticationForm";
 import Input from "../../ui/Form/Input/Input";
 import FormContainer from "../../ui/Form/FormContainer";
+import { useNavigate } from "react-router-dom";
+import routes from "../../../routes/AppRoutes";
 
 const registerUser = async ({
   email,
@@ -25,6 +27,11 @@ const registerUser = async ({
 };
 
 const UserRegister = () => {
+
+  const navigate = useNavigate()
+
+  const { dashboard } = routes
+
   const {
     formState: { email, password },
     handleEmailChange,
@@ -38,13 +45,13 @@ const UserRegister = () => {
         password: password.value ?? "",
       }),
     enabled: false,
-    onSuccess: ({ token }) => {
-      console.log('register success', { token });
-      
-      localStorage.setItem("token", token);
+    onSuccess: (response) => {
+      console.log('register success', { response });
+      localStorage.setItem("token", response.body);
+      navigate(dashboard.path)
     },
     onError: (e) => {
-      console.log(e);
+      console.log('register failure', e);
     },
   });
 

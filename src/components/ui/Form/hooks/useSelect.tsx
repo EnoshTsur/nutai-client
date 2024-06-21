@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 interface useSelectProps {
   readonly options: ReadonlyArray<string>;
@@ -10,15 +15,17 @@ const useSelect = ({ options, value, onChange }: useSelectProps) => {
   const [isFocused, setFocused] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
 
-
-  const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === containerRef.current) {
-      setOpen(true);
-      setFocused(true);
-    }
-  }, [setOpen, setFocused]);
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === containerRef.current) {
+        setOpen(true);
+        setFocused(true);
+      }
+    },
+    [setOpen, setFocused]
+  );
 
   const handleFocus = useCallback(() => {
     setFocused(true);
@@ -51,6 +58,16 @@ const useSelect = ({ options, value, onChange }: useSelectProps) => {
     setActiveIndex(-1);
   }, [setActiveIndex]);
 
+  const handleOptionSelection = useCallback(
+    (option: string) => {
+      if (isOpen) {
+        setOpen(false);
+        onChange(option);
+      }
+    },
+    [onChange, isOpen, setOpen]
+  );
+
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (isFocused && !isOpen) {
@@ -68,18 +85,14 @@ const useSelect = ({ options, value, onChange }: useSelectProps) => {
         handleOptionSelection(orderedOptions[activeIndex]);
       }
     },
-    [activeIndex, setActiveIndex, options]
-  );
-
-  const handleOptionSelection = useCallback(
-    (option: string) => {
-      debugger
-      if (isOpen) {
-        setOpen(false);
-        onChange(option);
-      }
-    },
-    [onChange, isOpen, orderedOptions, options, setOpen]
+    [
+      isFocused,
+      isOpen,
+      activeIndex,
+      options.length,
+      handleOptionSelection,
+      orderedOptions,
+    ]
   );
 
   return {

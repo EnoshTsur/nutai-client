@@ -1,11 +1,11 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import Nav from "../../components/Nav/Nav";
 import Button from "../../components/ui/Button/Button";
-import useIsUserAuthenticated from "../../hooks/useIsUserAthenticated";
+import useTokenValidation from "../../hooks/useTokenValidation";
 import routes from "../../routes/AppRoutes";
-import { useProgressStore } from "../../store/progress/store";
+import Loader from "../../components/Loader/Loader";
+import { useEffect } from "react";
 
 const Text = styled.p<{ color: string }>`
   color: ${({ color }) => color};
@@ -43,23 +43,23 @@ const Container = styled.main`
 const Home = () => {
   const navigate = useNavigate();
 
-   useIsUserAuthenticated();
+  const { dashboard } = routes;
 
-  const { stage } = useProgressStore(({ stage }) => ({ stage }))
+  const { isSuccess, isFetched } = useTokenValidation();
 
   useEffect(() => {
-    console.log({ stage });
-    
-  }, [stage])
+    if (isFetched && isSuccess) {
+      navigate(dashboard.path);
+    }
+  }, [isSuccess, isFetched]);
 
-  const {
-    userProfile: { path },
-  } = routes;
-  return (
+  return !isFetched ? (
+    <Loader />
+  ) : (
     <Container>
       <Nav />
       <InfoAreaContainer>
-        <Text color="white" style={{ fontStyle: 'italic'}}>
+        <Text color="white" style={{ fontStyle: "italic" }}>
           #Your personal guide to achieving your nutrition golas.
         </Text>
         <h1 style={{ color: "white", fontSize: "42px" }}>
@@ -69,15 +69,12 @@ const Home = () => {
           Each week, update your weight and status, and our AI will analyze your
           progress.
         </Text>
-       <Button onClick={() => navigate('/user-profile')}>User  Profile</Button>
-       <Button onClick={() => navigate('/food-item')}>Food Item</Button>
-       <Button onClick={() => navigate('/food-items')}>All food Items</Button>
-
+        <Button onClick={() => navigate("/user-profile")}>User Profile</Button>
+        <Button onClick={() => navigate("/food-item")}>Food Item</Button>
+        <Button onClick={() => navigate("/food-items")}>All food Items</Button>
       </InfoAreaContainer>
     </Container>
   );
 };
 
 export default Home;
-
-

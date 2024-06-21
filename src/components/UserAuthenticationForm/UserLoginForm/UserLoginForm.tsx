@@ -4,6 +4,8 @@ import Button from "../../ui/Button/Button";
 import useUserAuthenticationForm from "../hooks/useUserAuthenticationForm";
 import Input from "../../ui/Form/Input/Input";
 import FormContainer from "../../ui/Form/FormContainer";
+import { useNavigate } from "react-router-dom";
+import routes from "../../../routes/AppRoutes";
 
 const fetchToken = async ({
   email,
@@ -25,6 +27,11 @@ const fetchToken = async ({
 };
 
 const UserLoginForm = () => {
+
+  const navigate = useNavigate()
+
+  const { dashboard } = routes
+
   const {
     formState: { email, password },
     handleEmailChange,
@@ -35,12 +42,13 @@ const UserLoginForm = () => {
     queryFn: () =>
       fetchToken({ email: email.value!, password: password.value! }),
     enabled: false,
-    onSuccess: ({ token }) => {
-      console.log('logim success', {token});
-      localStorage.setItem("token", token);
+    onSuccess: (response) => {
+      console.log('login success', { response });
+      localStorage.setItem("token", response.body);
+      navigate(dashboard.path)
     },
     onError: (e) => {
-      console.log(e);
+      console.log('login failure', e);
     },
   });
 

@@ -11,6 +11,7 @@ const foodItemApi: AxiosInstance = axios.create({
   },
 });
 
+
 foodItemApi.interceptors.request.use(
   (config) => {
     // Check if token exists in localStorage

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./GlobalStyles";
 import { darkTheme } from "./theme";
@@ -9,10 +8,9 @@ import { QueryClient, QueryClientProvider } from "react-query";
 const queryClient = new QueryClient();
 
 function App() {
-  const [theme, setTheme] = useState(darkTheme);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
@@ -28,9 +26,3 @@ function App() {
 }
 
 export default App;
-/**
- * 
- * 
- *   <circle cx="95" cy="45" r="3" fill="#000"/> <!-- Left eye -->
-  <circle cx="105" cy="45" r="3" fill="#000"/> <!-- Right eye -->
- */

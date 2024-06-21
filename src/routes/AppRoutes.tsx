@@ -5,8 +5,9 @@ import UserProfileForm from "../components/UserProfileForm/UserProfileForm";
 import Home from "../pages/Home/Home";
 import FoodItemForm from "../components/FoodItemForm/FoodItemForm";
 import FoodItems from "../components/FoodItems/FoodItems";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
-type RouteKey = "home" | "login" | "userProfile" | "register" | "foodItem" | "foodItems";
+type RouteKey = "home" | "login" | "userProfile" | "register" | "foodItem" | "foodItems" | "dashboard";
 
 export interface RouteValue {
   readonly path: string;
@@ -14,9 +15,14 @@ export interface RouteValue {
   readonly component: React.ComponentType;
 }
 
-export type RoutesConFig = Readonly<Record<RouteKey, RouteValue>>;
+export type RoutesConfig = Readonly<Record<RouteKey, RouteValue>>;
 
-const routes: RoutesConFig = {
+const routes: RoutesConfig = {
+  dashboard: {
+    path: '/dashboard',
+    label: 'Dashboard',
+    component: () => <Dashboard />
+  },
   foodItems: {
     path: '/food-items',
     label: 'All food items',
