@@ -17,7 +17,7 @@ const getAllFoodItems = async () => {
 
 const FoodItems = () => {
   const { data, isFetching, error } = useQuery<{
-    foodItems: ReadonlyArray<FoodItem & { _id: string, __v: string }>;
+    body: ReadonlyArray<FoodItem & { _id: string, __v: string }>;
   }>(["all-food-items"], { queryFn: getAllFoodItems });
   const headers = useMemo(
     () => ["", "Serving Amount", "Package Amount", "Calories", "Carbohydrate", "Fat", "Protein"],
@@ -28,7 +28,7 @@ const FoodItems = () => {
     () =>
       !data
         ? []
-        : data.foodItems.map(({ _id, __v, name, brand, ...rest }) =>
+        : data.body.map(({ _id, __v, name, brand, ...rest }) =>
             Object.values({ name: `${brand}: ${name}`, ...rest }).map(String)
           ),
     [data]
